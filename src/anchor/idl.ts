@@ -1,4 +1,4 @@
-export const PROGRAM_ID_STR = "D2MrauesmqwRTT59otk75TUn3ZuZFGBb2EhhWM1qd5Hx";
+export const PROGRAM_ID_STR = import.meta.env.VITE_PROGRAM_ID || "D2MrauesmqwRTT59otk75TUn3ZuZFGBb2EhhWM1qd5Hx";
 
 const IDL_DATA = {
   "metadata": {

@@ -14,7 +14,8 @@ const idl: FastpayIdl = {
 } as FastpayIdl;
 
 export const getProgram = (wallet: any) => {
-    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+    const rpcUrl = import.meta.env.VITE_SOLANA_RPC_URL || "https://api.devnet.solana.com";
+    const connection = new Connection(rpcUrl, "confirmed");
     const provider = new AnchorProvider(connection, wallet, {
         preflightCommitment: "confirmed",
     });
