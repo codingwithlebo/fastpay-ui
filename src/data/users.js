@@ -1,0 +1,50 @@
+export const USERS = {
+  '@malebo': {
+    name: 'Malebo Nkuna',
+    handle: '@malebo',
+    bio: 'Designer · Developer · Builder 🇿🇦',
+    initials: 'MN',
+    avatarBg: 'rgba(0,255,135,0.10)',
+    avatarColor: '#00ff87',
+    score: '9.4',
+    wallet: '7xKp3mNq...FgHj',
+  },
+  '@dev_rizky': {
+    name: 'Rizky Januar',
+    handle: '@dev_rizky',
+    bio: 'Solana dev · Smart contracts 🇮🇩',
+    initials: 'RJ',
+    avatarBg: 'rgba(77,159,255,0.10)',
+    avatarColor: '#4d9fff',
+    score: '8.7',
+    wallet: '3mNqRs8v...WzYe',
+  },
+  '@jacob_codes': {
+    name: 'Jacob Mensah',
+    handle: '@jacob_codes',
+    bio: 'n8n automation · Web3 integrations',
+    initials: 'JM',
+    avatarBg: 'rgba(245,166,35,0.10)',
+    avatarColor: '#f5a623',
+    score: '9.1',
+    wallet: 'BtWzYeLd...KoMn',
+  },
+  '@rzkjanuarr': {
+    name: 'Rizky Januar',
+    handle: '@rzkjanuarr',
+    bio: 'Solana dev · Smart contracts 🇮🇩',
+    initials: 'RJ',
+    avatarBg: 'rgba(77,159,255,0.10)',
+    avatarColor: '#4d9fff',
+    score: '8.7',
+    wallet: '3mNqRs8v...WzYe',
+  },
+}
+
+export const TRANSACTIONS = [
+  { time: '09:41:12', type: 'RECEIVED', party: '@dev_rizky',   amount: '+1.0 SOL', hash: '3xKp...9mNq' },
+  { time: '09:40:20', type: 'RECEIVED', party: '@jacob_codes', amount: '+0.5 SOL', hash: '8yLm...2pQr' },
+  { time: '09:38:55', type: 'SENT',     party: '@rzkjanuarr',  amount: '-0.5 SOL', hash: '2wRt...4jHp' },
+  { time: '09:30:11', type: 'RECEIVED', party: '@malebo',      amount: '+2.0 SOL', hash: '5vNx...7kWs' },
+  { time: '09:15:44', type: 'SENT',     party: '@dev_rizky',   amount: '-0.1 SOL', hash: '9pQr...1xYz' },
+]
