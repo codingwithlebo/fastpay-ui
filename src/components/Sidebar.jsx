@@ -1,5 +1,5 @@
 import {
-    IconSend, IconUser, IconQrcode, IconWallet, IconCheck, IconX, IconBell, IconSettings
+    IconSend, IconQrcode, IconWallet, IconCheck, IconX, IconBell, IconSettings
 } from '@tabler/icons-react'
 
 const NAV = [
@@ -12,7 +12,7 @@ const NAV = [
     {
         group: 'Identity',
         items: [
-            { id: 'profile', label: 'My Profile', Icon: IconUser },
+            // { id: 'profile', label: 'My Profile', Icon: IconUser },
             { id: 'qr', label: 'QR Code', Icon: IconQrcode },
         ],
     },
@@ -64,17 +64,6 @@ export default function Sidebar({ active, onNav, connected, onConnect, wallet, i
                         </section>
                     ))}
                 </nav>
-
-                <div className="lg:hidden mt-6 pt-4 flex flex-col gap-1 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                    <button className="fp-nav flex items-center gap-2">
-                        <IconBell size={14} />
-                        <span>Notifications</span>
-                    </button>
-                    <button className="fp-nav flex items-center gap-2">
-                        <IconSettings size={14} />
-                        <span>Settings</span>
-                    </button>
-                </div>
 
                 <div className="flex-1 min-h-[20px]" />
 

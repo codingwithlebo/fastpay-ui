@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { IconSearch, IconSend, IconQrcode, IconCheck, IconLoader2 } from '@tabler/icons-react'
 import { USERS } from '../data/users'
 import { useFastPay } from '../hooks/useFastPay'
+import RecentTips from '../components/RecentTips'
 
 const AMOUNTS = [0.1, 0.5, 1, 5, 10]
 const SOL_USD = 146.4
@@ -14,6 +15,8 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
     const [custom, setCustom] = useState('')
     const [message, setMessage] = useState('')
 
+    const [lastTx, setLastTx] = useState(0)
+
     const { sendTip, loading, error } = useFastPay()
 
     useEffect(() => {
@@ -25,7 +28,6 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
         }
 
         if (initialAmount) {
-            // If it matches a preset, select it; otherwise put it in custom
             if (AMOUNTS.includes(initialAmount)) {
                 setSelAmt(initialAmount)
                 setCustom('')
@@ -52,9 +54,17 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
 
         try {
             const signature = await sendTip(user.address, amt, finalMsg)
-            onSuccess(`${amt.toFixed(2)} SOL sent to ${user.handle} on Solana devnet`, `tx: ${signature}`)
+
+            onSuccess({
+                message: `${amt.toFixed(2)} SOL sent to ${user.handle} on Solana devnet`,
+                hash: signature,
+                handle: user.handle,
+                amount: amt,
+            })
+
             setCustom('')
             setMessage('')
+            setLastTx(Date.now())
         } catch (err) {
             console.error('Payment failed:', err)
         }
@@ -189,6 +199,8 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                     </div>
                 </>
             )}
+
+            <RecentTips key={lastTx} />
         </div>
     )
 }

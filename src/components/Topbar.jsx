@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import logo from "../assets/icon_24.svg"
-import { IconWallet, IconBell, IconSettings, IconCheck, IconMenu2 } from '@tabler/icons-react'
+import { IconWallet, IconCheck, IconMenu2 } from '@tabler/icons-react'
 
 export default function Topbar({ connected, onConnect, onMenuToggle }) {
     const [time, setTime] = useState(new Date());
@@ -47,16 +47,6 @@ export default function Topbar({ connected, onConnect, onMenuToggle }) {
                         {connected ? "Phantom Connected" : "Connect Phantom"}
                     </span>
                 </button>
-
-                <div className="hidden lg:flex items-center gap-2">
-                    <button className="fp-btn-ghost px-2">
-                        <IconBell size={13} />
-                    </button>
-
-                    <button className="fp-btn-ghost px-2">
-                        <IconSettings size={13} />
-                    </button>
-                </div>
 
                 <button onClick={onMenuToggle} className="lg:hidden fp-btn-ghost px-2">
                     <IconMenu2 size={20} />

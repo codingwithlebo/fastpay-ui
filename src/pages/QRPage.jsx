@@ -6,14 +6,24 @@ import { useQRGeneration } from '../hooks/useQRGeneration'
 export default function QRPage() {
     const qrWrapperRef = useRef(null)
     const [amount, setAmount] = useState('')
+    const [linkCopied, setLinkCopied] = useState(false)
+
+    const handleCopyLink = async () => {
+        if (!qrUrl) return;
+        try {
+            await navigator.clipboard.writeText(qrUrl)
+            setLinkCopied(true)
+            setTimeout(() => setLinkCopied(false), 2000)
+        } catch (err) {
+            // 
+        }
+    }
 
     const {
         shortAddress,
         qrUrl,
         connected,
-        copied,
         downloading,
-        copyAddress,
         downloadQRImage,
     } = useQRGeneration(parseFloat(amount) > 0 ? parseFloat(amount) : undefined)
 
@@ -90,11 +100,11 @@ export default function QRPage() {
                         </button>
                         <button
                             className="fp-btn-ghost"
-                            onClick={copyAddress}
-                            disabled={!connected}
+                            onClick={handleCopyLink}
+                            disabled={!connected || !qrUrl}
                         >
-                            {copied ? <IconCheck size={13} /> : <IconCopy size={13} />}
-                            {copied ? 'Copied!' : 'Copy Address'}
+                            {linkCopied ? <IconCheck size={13} /> : <IconCopy size={13} />}
+                            {linkCopied ? 'Copied!' : 'Copy Link'}
                         </button>
                     </div>
                 </div>

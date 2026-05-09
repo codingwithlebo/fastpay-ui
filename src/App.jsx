@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 
 import Topbar from './components/Topbar'
 import Sidebar from './components/Sidebar'
@@ -8,48 +9,25 @@ import PhantomModal from './components/PhantomModal'
 import SuccessOverlay from './components/SuccessOverlay'
 import TipPage from './pages/TipPage'
 import QRPage from './pages/QRPage'
-import Profile from './pages/Profile'
+import { saveRecentTip } from './components/RecentTips'
 
-function getDeepLinkParams() {
-    const match = window.location.pathname.match(/^\/@([\w.]+)\/?$/)
-    if (!match) return { handle: null, amount: null }
-
-    const handle = `@${match[1].toLowerCase()}`
-    const amount = new URLSearchParams(window.location.search).get('amount')
-    const parsed = parseFloat(amount)
-
-    return {
-        handle,
-        amount: !isNaN(parsed) && parsed > 0 ? parsed : null,
-    }
-}
-
-export default function App() {
+function AppContent() {
     const { publicKey, connected, disconnect } = useWallet()
     const { connection } = useConnection()
+    const navigate = useNavigate()
+    const location = useLocation()
 
-    const [page, setPage] = useState('tip')
     const [modal, setModal] = useState(false)
     const [success, setSuccess] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [deepLink, setDeepLink] = useState({ handle: null, amount: null })
-
     const [walletInfo, setWalletInfo] = useState({ addr: '', sol: '0.00', usd: '≈ $0.00' })
-
-    useEffect(() => {
-        const params = getDeepLinkParams()
-        if (params.handle) {
-            setDeepLink(params)
-            setPage('tip')
-        }
-    }, [])
 
     useEffect(() => {
         if (connected && publicKey) {
             connection.getBalance(publicKey).then(balance => {
                 const sol = balance / LAMPORTS_PER_SOL
                 const fullAddress = publicKey.toBase58()
-                const shortAddress = `${fullAddress.slice(0, 6)}...${fullAddress.slice(-6)}`
+                const shortAddress = `${fullAddress.slice(0, 4)}...${fullAddress.slice(-4)}`
                 setWalletInfo({
                     addr: shortAddress,
                     sol: sol.toFixed(2),
@@ -64,29 +42,24 @@ export default function App() {
         else setModal(true)
     }
 
-    const handleNav = (id) => {
-        setPage(id)
-        setIsMenuOpen(false)
-        window.history.replaceState(null, '', '/')
-        if (id !== 'tip') setDeepLink({ handle: null, amount: null })
+    const getDeepLinkParams = () => {
+        const match = location.pathname.match(/^\/@([\w.]+)\/?$/)
+        if (!match) return { handle: null, amount: null }
+        const handle = `@${match[1].toLowerCase()}`
+        const amount = new URLSearchParams(location.search).get('amount')
+        const parsed = parseFloat(amount)
+        return {
+            handle,
+            amount: !isNaN(parsed) && parsed > 0 ? parsed : null,
+        }
     }
 
-    const renderPage = () => {
-        switch (page) {
-            case 'qr':
-                return <QRPage />
-            case 'profile':
-                return <Profile />
-            default:
-                return (
-                    <TipPage
-                        onSuccess={(m, h) => setSuccess({ m, h })}
-                        onQR={() => handleNav('qr')}
-                        initialHandle={deepLink.handle}
-                        initialAmount={deepLink.amount}
-                    />
-                )
-        }
+    const { handle, amount } = getDeepLinkParams()
+    const activePage = location.pathname === '/qr' ? 'qr' : 'tip'
+
+    const handleSuccess = ({ message, hash, handle: tipHandle, amount: tipAmount }) => {
+        saveRecentTip({ handle: tipHandle, amount: tipAmount, hash })
+        setSuccess({ m: message, h: `tx: ${hash}` })
     }
 
     return (
@@ -99,8 +72,11 @@ export default function App() {
 
             <div className="flex flex-1 overflow-hidden relative">
                 <Sidebar
-                    active={page}
-                    onNav={handleNav}
+                    active={activePage}
+                    onNav={(id) => {
+                        navigate(id === 'qr' ? '/qr' : '/')
+                        setIsMenuOpen(false)
+                    }}
                     connected={connected}
                     onConnect={handleConnectClick}
                     wallet={walletInfo}
@@ -108,7 +84,35 @@ export default function App() {
                     onClose={() => setIsMenuOpen(false)}
                 />
                 <main className="flex-1 bg-bg0 p-4 lg:p-6 overflow-y-auto">
-                    {renderPage()}
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                <TipPage
+                                    onSuccess={handleSuccess}
+                                    onQR={() => navigate('/qr')}
+                                    initialHandle={null}
+                                    initialAmount={null}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/qr"
+                            element={<QRPage />}
+                        />
+                        <Route
+                            path="/:user"
+                            element={
+                                <TipPage
+                                    onSuccess={handleSuccess}
+                                    onQR={() => navigate('/qr')}
+                                    initialHandle={handle}
+                                    initialAmount={amount}
+                                />
+                            }
+                        />
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
                 </main>
             </div>
 
@@ -117,7 +121,22 @@ export default function App() {
                 onDone={() => setModal(false)}
                 onCancel={() => setModal(false)}
             />
-            {success && <SuccessOverlay show message={success.m} hash={success.h} onClose={() => setSuccess(null)} />}
+            {success && (
+                <SuccessOverlay
+                    show
+                    message={success.m}
+                    hash={success.h}
+                    onClose={() => setSuccess(null)}
+                />
+            )}
         </div>
+    )
+}
+
+export default function App() {
+    return (
+        <Router>
+            <AppContent />
+        </Router>
     )
 }
