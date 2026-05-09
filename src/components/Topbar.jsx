@@ -81,6 +81,7 @@ export default function Topbar({
                             ? "fp-btn-green"
                             : "fp-btn-ghost"
                     }
+                    aria-label="Connect wallet"
                 >
                     {connected ? (
                         <IconCheck
