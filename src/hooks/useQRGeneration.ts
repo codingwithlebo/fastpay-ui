@@ -1,6 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { generateSolanaPayUrl, formatWalletAddress, convertSvgToPngBlob } from "../utils/qr";
+import { USERS } from '../data/users';
+
+function findHandleByAddress(address: string): string | null {
+    const entry = Object.values(USERS).find(u => u.address === address)
+    return entry?.handle ?? null
+}
 
 export function useQRGeneration(amount?: number) {
     const { publicKey, connected } = useWallet()
@@ -9,7 +15,9 @@ export function useQRGeneration(amount?: number) {
 
     const address = publicKey?.toBase58() ?? ""
     const shortAddress = address ? formatWalletAddress(address) : ""
-    const qrUrl = address ? generateSolanaPayUrl(address, amount) : ""
+
+    const handle = useMemo(() => findHandleByAddress(address), [address])
+    const qrUrl = address ? generateSolanaPayUrl(handle ?? address, amount) : ""
 
     const copyAddress = useCallback(async () => {
         if (!address) return
@@ -34,5 +42,5 @@ export function useQRGeneration(amount?: number) {
         }
     }, [shortAddress])
 
-    return { address, shortAddress, qrUrl, connected, copied, downloading, copyAddress, downloadQRImage, }
+    return { address, shortAddress, qrUrl, handle, connected, copied, downloading, copyAddress, downloadQRImage }
 }

@@ -6,7 +6,7 @@ import { useFastPay } from '../hooks/useFastPay'
 const AMOUNTS = [0.1, 0.5, 1, 5, 10]
 const SOL_USD = 146.4
 
-export default function TipPage({ onSuccess, onQR, initialHandle }) {
+export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount }) {
     const [query, setQuery] = useState('')
     const [user, setUser] = useState(null)
     const [notFound, setNotFound] = useState(false)
@@ -23,7 +23,18 @@ export default function TipPage({ onSuccess, onQR, initialHandle }) {
             setUser(u || null)
             setNotFound(!u)
         }
-    }, [initialHandle])
+
+        if (initialAmount) {
+            // If it matches a preset, select it; otherwise put it in custom
+            if (AMOUNTS.includes(initialAmount)) {
+                setSelAmt(initialAmount)
+                setCustom('')
+            } else {
+                setCustom(String(initialAmount))
+                setSelAmt(0)
+            }
+        }
+    }, [initialHandle, initialAmount])
 
     function search() {
         const key = query.trim().toLowerCase()

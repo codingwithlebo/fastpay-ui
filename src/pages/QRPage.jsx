@@ -65,7 +65,7 @@ export default function QRPage() {
                                 className="font-mono text-xs text-green bg-bg3 rounded-fp px-2.5 py-2 mb-2.5"
                                 style={{ border: '1px solid rgba(255,255,255,0.08)', wordBreak: 'break-all' }}
                             >
-                                {shortAddress}
+                                {qrUrl}
                             </div>
                             <p className="font-mono text-xs text-t2 mb-4 leading-relaxed">
                                 Anyone who scans this can tip you in SOL via Phantom — no wallet address, no errors, one tap.

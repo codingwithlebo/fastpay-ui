@@ -1,6 +1,12 @@
-export function generateSolanaPayUrl(address: string, amount?: number): string {
-    const base = `solana:${address}`
-    return amount && amount > 0 ? `${base}?amount=${amount}` : base
+export function generateSolanaPayUrl(handle: string, amount?: number): string {
+    const cleanHandle = handle.startsWith('@') ? handle.slice(1) : handle;
+    const baseUrl = `https://fastpay-sol.vercel.app/@${cleanHandle}`;
+
+    if (amount && amount > 0) {
+        return `${baseUrl}?amount=${amount}`;
+    }
+
+    return baseUrl;
 }
 
 export function formatWalletAddress(address: string, chars = 6): string {

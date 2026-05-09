@@ -3,9 +3,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { SystemProgram, Transaction, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { Program, AnchorProvider, BN } from '@coral-xyz/anchor';
 
-import idl from '../idl/fastpay.json';
-
-const PROGRAM_ID = new PublicKey("D2MrauesmqwRTT59otk75TUn3ZuZFGBb2EhhWM1qd5Hx");
+const PROGRAM_ID = new PublicKey(import.meta.env.VITE_PROGRAM_ID)
 
 export function useFastPay() {
     const { connection } = useConnection();

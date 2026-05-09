@@ -11,9 +11,18 @@ import QRPage from './pages/QRPage'
 import History from './pages/History'
 import Profile from './pages/Profile'
 
-function getHandleFromPath() {
+function getDeepLinkParams() {
     const match = window.location.pathname.match(/^\/@([\w.]+)\/?$/)
-    return match ? `@${match[1].toLowerCase()}` : null
+    if (!match) return { handle: null, amount: null }
+
+    const handle = `@${match[1].toLowerCase()}`
+    const amount = new URLSearchParams(window.location.search).get('amount')
+    const parsed = parseFloat(amount)
+
+    return {
+        handle,
+        amount: !isNaN(parsed) && parsed > 0 ? parsed : null,
+    }
 }
 
 export default function App() {
@@ -24,14 +33,14 @@ export default function App() {
     const [modal, setModal] = useState(false)
     const [success, setSuccess] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [initialHandle, setInitialHandle] = useState(null)
+    const [deepLink, setDeepLink] = useState({ handle: null, amount: null })
 
     const [walletInfo, setWalletInfo] = useState({ addr: '', sol: '0.00', usd: '≈ $0.00' })
 
     useEffect(() => {
-        const handle = getHandleFromPath()
-        if (handle) {
-            setInitialHandle(handle)
+        const params = getDeepLinkParams()
+        if (params.handle) {
+            setDeepLink(params)
             setPage('tip')
         }
     }, [])
@@ -59,7 +68,8 @@ export default function App() {
     const handleNav = (id) => {
         setPage(id)
         setIsMenuOpen(false)
-        if (id !== 'tip') setInitialHandle(null)
+        window.history.replaceState(null, '', '/')
+        if (id !== 'tip') setDeepLink({ handle: null, amount: null })
     }
 
     const renderPage = () => {
@@ -75,7 +85,8 @@ export default function App() {
                     <TipPage
                         onSuccess={(m, h) => setSuccess({ m, h })}
                         onQR={() => handleNav('qr')}
-                        initialHandle={initialHandle}
+                        initialHandle={deepLink.handle}
+                        initialAmount={deepLink.amount}
                     />
                 )
         }
