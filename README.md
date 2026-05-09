@@ -16,6 +16,8 @@ FastPay abstracts technical complexity through:
 
 ## 🚀 Technical Highlights & Performance
 
+- **Lighthouse Score 96/100**: (SEO Optimization, Accessibility and Best Practices). 
+- **Semantic SEO**: Using HTML5 tags and Open Graph metadata for social media-rich previews.
 - **Arquitecture**: React 18 + Vite for sub-second loading and Tailwind CSS v4 for responsive design.
 
 ## 🎯 Use Cases (Target Audience)
