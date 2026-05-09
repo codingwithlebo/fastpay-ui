@@ -11,8 +11,8 @@ Wallet addresses in Solana (e.g., `7xKp...3mNq`) are prone to human error. A sin
 FastPay abstracts technical complexity through:
 
 - **Human Identifiers**: @jacob instead of a public key.
-- **Preventive Validation**: Balance check in the UI begore interacting with the blockchain.
-- **Social Proof**:Share Fastpay platform via X sharing and direct links to Solscan.
+- **Preventive Validation**: Balance check in the UI beFore interacting with the blockchain.
+- **Social Proof**: Share Fastpay platform via X sharing and direct links to Solscan.
 
 ## 🚀 Technical Highlights & Performance
 
@@ -62,8 +62,9 @@ src/
 │   ├── Topbar.jsx          # Wallet connection and network status
 │   ├── Sidebar.jsx         # Wallet balance and navigation
 │   ├── PhantomModal.jsx    # Animated connection mode
+│   ├── ErrorToast.jsx      # Toast notification for errors / issues
 |   ├── SuccessOverlay.jsx  # Feedback on success and sharing on X
-│   └── RecentTips.jsx      # Save and read the last 5 tips.
+│   └── RecentTips.jsx      # Save and read the last 5 tips
 ├── pages/
 │   ├── TipPage.jsx         # SOL central search and submission logic
 │   ├── QRPage.jsx          # QR invoice generation and link copying
