@@ -7,6 +7,9 @@ import Sidebar from './components/Sidebar'
 import PhantomModal from './components/PhantomModal'
 import SuccessOverlay from './components/SuccessOverlay'
 import TipPage from './pages/TipPage'
+import QRPage from './pages/QRPage'
+import History from './pages/History'
+import Profile from './pages/Profile'
 
 export default function App() {
     const { publicKey, connected, disconnect } = useWallet()
@@ -45,6 +48,19 @@ export default function App() {
         setIsMenuOpen(false)
     }
 
+    const renderPage = () => {
+        switch (page) {
+            case 'qr':
+                return <QRPage />
+            case 'history':
+                return <History />
+            case 'profile':
+                return <Profile />
+            default:
+                return <TipPage onSuccess={(m, h) => setSuccess({ m, h })} onQR={() => handleNav('qr')} />
+        }
+    }
+
     return (
         <div className="h-screen bg-bg0 text-t1 font-mono flex flex-col overflow-hidden">
             <Topbar
@@ -64,7 +80,7 @@ export default function App() {
                     onClose={() => setIsMenuOpen(false)}
                 />
                 <main className="flex-1 bg-bg0 p-4 lg:p-6 overflow-y-auto">
-                    <TipPage onSuccess={(m, h) => setSuccess({ m, h })} onQR={() => handleNav('qr')} />
+                    {renderPage()}
                 </main>
             </div>
 
