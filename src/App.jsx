@@ -1,42 +1,64 @@
-import { useState } from 'react'
-import Topbar         from './components/Topbar'
-import Sidebar        from './components/Sidebar'
-import PhantomModal   from './components/PhantomModal'
+import { useState, useEffect } from 'react'
+import { useWallet, useConnection } from '@solana/wallet-adapter-react'
+import { LAMPORTS_PER_SOL } from '@solana/web3.js'
+
+import Topbar from './components/Topbar'
+import Sidebar from './components/Sidebar'
+import PhantomModal from './components/PhantomModal'
 import SuccessOverlay from './components/SuccessOverlay'
-import TipPage        from './pages/TipPage'
-import Dashboard      from './pages/Dashboard'
-import History        from './pages/History'
-import Profile        from './pages/Profile'
-import QRPage         from './pages/QRPage'
+import TipPage from './pages/TipPage'
 
 export default function App() {
-  const [page,      setPage]      = useState('tip')
-  const [modal,     setModal]     = useState(false)
-  const [success,   setSuccess]   = useState(null)
-  const [connected, setConnected] = useState(false)
+    const { publicKey, connected, disconnect } = useWallet()
+    const { connection } = useConnection()
 
-  const wallet = { addr: '7xKp...3mNq', sol: '12.45', usd: '≈ $1,820.34 USD' }
+    const [page, setPage] = useState('tip')
+    const [modal, setModal] = useState(false)
+    const [success, setSuccess] = useState(null)
 
-  const renderPage = () => {
-    switch(page) {
-      case 'tip':       return <TipPage onSuccess={(m,h) => setSuccess({m,h})} onQR={() => setPage('qr')} />
-      case 'dashboard': return <Dashboard />
-      case 'history':   return <History />
-      case 'profile':   return <Profile />
-      case 'qr':        return <QRPage />
-      default:          return <TipPage onSuccess={(m,h) => setSuccess({m,h})} onQR={() => setPage('qr')} />
+    const [walletInfo, setWalletInfo] = useState({ addr: '', sol: '0.00', usd: '≈ $0.00' })
+
+    useEffect(() => {
+        if (connected && publicKey) {
+            connection.getBalance(publicKey).then(balance => {
+                const sol = balance / LAMPORTS_PER_SOL
+                setWalletInfo({
+                    addr: publicKey.toBase58(),
+                    sol: sol.toFixed(2),
+                    usd: `≈ $${(sol * 146.4).toLocaleString()} USD`
+                })
+            })
+        }
+    }, [connected, publicKey, connection])
+
+    const handleConnectClick = () => {
+        if (connected) disconnect()
+        else setModal(true)
     }
-  }
 
-  return (
-    <div className="min-h-screen bg-bg0 text-t1 font-mono">
-      <Topbar connected={connected} onConnect={() => setModal(true)} />
-      <div className="grid" style={{ gridTemplateColumns: '210px 1fr', minHeight: 'calc(100vh - 48px)' }}>
-        <Sidebar active={page} onNav={setPage} connected={connected} onConnect={() => setModal(true)} wallet={wallet} />
-        <main className="bg-bg0 p-6 overflow-y-auto">{renderPage()}</main>
-      </div>
-      <PhantomModal open={modal} onDone={() => { setConnected(true); setModal(false) }} onCancel={() => setModal(false)} />
-      {success && <SuccessOverlay show message={success.m} hash={success.h} onClose={() => setSuccess(null)} />}
-    </div>
-  )
+    return (
+        <div className="min-h-screen bg-bg0 text-t1 font-mono">
+            <Topbar connected={connected} onConnect={handleConnectClick} />
+
+            <div className="grid" style={{ gridTemplateColumns: '210px 1fr', minHeight: 'calc(100vh - 48px)' }}>
+                <Sidebar
+                    active={page}
+                    onNav={setPage}
+                    connected={connected}
+                    onConnect={handleConnectClick}
+                    wallet={walletInfo}
+                />
+                <main className="bg-bg0 p-6 overflow-y-auto">
+                    <TipPage onSuccess={(m, h) => setSuccess({ m, h })} onQR={() => setPage('qr')} />
+                </main>
+            </div>
+
+            <PhantomModal
+                open={modal}
+                onDone={() => setModal(false)}
+                onCancel={() => setModal(false)}
+            />
+            {success && <SuccessOverlay show message={success.m} hash={success.h} onClose={() => setSuccess(null)} />}
+        </div>
+    )
 }
