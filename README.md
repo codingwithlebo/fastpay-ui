@@ -18,7 +18,14 @@ FastPay abstracts technical complexity through:
 
 - **Lighthouse Score 96/100**: (SEO Optimization, Accessibility and Best Practices).
 - **Semantic SEO**: Using HTML5 tags and Open Graph metadata for social media-rich previews.
-- **Arquitecture**: React 18 + Vite for sub-second loading and Tailwind CSS v4 for responsive design.
+- **Architecture**: React 18 + Vite for sub-second loading and Tailwind CSS v4 for responsive design.
+
+## ⛓ Blockchain & Smart Contract
+
+- **Network**: Solana Devnet
+- **Program ID**: `D2MrauesmqwRTT59otk75TUn3ZuZFGBb2EhhWM1qd5Hx`
+- **Deploy Address**: `24S1N7WbnQNLfLFVSiDKCQdpQSq82WnxmABEmvt3uxzzP39rgouZQ4kta7vv5VSerQbRHDem7EzdgyYF3Ao9j7AJ`
+- **Framework**: Anchor Framework
 
 ## 🎯 Use Cases (Target Audience)
 
@@ -33,7 +40,7 @@ Ideal for getting paid for quick services. Instead of sending a confusing wallet
 
 ### 3. Donations and Social Causes 🌍
 
-Organizations that need to raise funds transparently and quickly. Anyone in the world can donate in seconds, with the transaction verified inmmediately on the blockchain through the generated links.
+Organizations that need to raise funds transparently and quickly. Anyone in the world can donate in seconds, with the transaction verified immediately on the blockchain through the generated links.
 
 ## Key Features (Implemented)
 
@@ -52,7 +59,7 @@ Following the hackathon, the project will evolve from an MVP to a robust platfor
 - **Phase 2: Smart Notification**: Implementation of webhooks for automatic payment notification via Email or Telegram.
 - **Phase 3: Multi-Token Support**: Support for payments in USDC and other tokens within the Solana ecosystem.
 
-- **Phase 4: Mainnet Deployment**: Transition from the Devnet to the Solana
+- **Phase 4: Mainnet Deployment**: Transition from the Devnet to the Solana Mainnet.
 
 ## 📁 Project Structure
 
@@ -105,7 +112,7 @@ src/
 
 ### 🖥 Local Hosting
 
-Once the command has been executed, open your browser to: [localhost:5173](https://localhost:5173)
+Once the command has been executed, open your browser to: [localhost:5173](http://localhost:5173)
 
 ***Note***: *Make sure you have your Phantom Wallet set up on Devnet to test real transactions at no cost.*
 
