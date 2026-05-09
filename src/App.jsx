@@ -14,7 +14,7 @@ import NotFound from "./pages/NotFound"
 import { USERS } from "./data/users"
 import { saveRecentTip } from "./components/RecentTips"
 
-const ProfileWrapper = ({ onSuccess, onQR }) => {
+const ProfileWrapper = ({ onSuccess, onQR, walletInfo }) => {
     const { user } = useParams()
     const location = useLocation()
 
@@ -34,6 +34,7 @@ const ProfileWrapper = ({ onSuccess, onQR }) => {
             onQR={onQR}
             initialHandle={handle}
             initialAmount={validAmount}
+            walletInfo={walletInfo}
         />
     )
 }
@@ -108,6 +109,7 @@ function AppContent() {
                                     onQR={() => navigate('/qr')}
                                     initialHandle={null}
                                     initialAmount={null}
+                                    walletInfo={walletInfo}
                                 />
                             }
                         />
@@ -123,6 +125,7 @@ function AppContent() {
                                 <ProfileWrapper
                                     onSuccess={handleSuccess}
                                     onQR={() => navigate('/qr')}
+                                    walletInfo={walletInfo}
                                 />
                             }
                         />

@@ -94,9 +94,24 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
             </div>
 
             {notFound && !user && (
-                <p className="font-mono text-xs text-red-500 mb-4">
-                    No user found for "{query}".
-                </p>
+                <div className="fp-card p-6 mb-4 flex flex-col items-center text-center gap-3">
+                    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="22" cy="22" r="13" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
+                        <line x1="31.5" y1="31.5" x2="42" y2="42" stroke="rgba(255,255,255,0.12)" strokeWidth="2" strokeLinecap="round" />
+                        <line x1="17" y1="17" x2="27" y2="27" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round" />
+                        <line x1="27" y1="17" x2="17" y2="27" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+
+                    <div>
+                        <p className="font-head font-extrabold text-sm text-t1 mb-1">
+                            User not found
+                        </p>
+                        <p className="font-mono text-xs text-t3 leading-relaxed">
+                            <span className="text-red-400">"{query}"</span> isn't registered on FastPay yet.
+                            <br />Double-check the handle or ask them to join.
+                        </p>
+                    </div>
+                </div>
             )}
 
             {user && (
