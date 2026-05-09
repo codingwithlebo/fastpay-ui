@@ -1,14 +1,17 @@
-⚡ FastPay
+# ⚡ FastPay
 
 Tip creators. Pay freelancers. Donate to causes.
 Human-readable payments on Solana — no wallet addresses needed.
 
+## 🧠 The Problem
 
-🧠 The Problem
 Web3 wallet addresses look like this:
-7xKp3mNqRs8vBtWzYeLdFgHjKoMnPqRs3mNq
-One wrong character and your money is gone forever. This is the #1 reason everyday people don't use crypto for payments like tipping a creator, paying a freelancer, or donating to a cause.
-✅ Our Solution
+7xKp...3mNq; One wrong character and your money is gone forever.
+
+This is the #1 reason everyday people don't use crypto for payments like tipping a creator, paying a freelancer, or donating to a cause.
+
+## ✅ Our Solution
+
 FastPay abstracts wallet addresses into:
 
 Human-readable usernames → @malebo
@@ -17,18 +20,27 @@ Dynamic QR codes → scan and pay in one tap via Phantom
 
 No errors. No confusion. One click.
 
-🚀 Tech Stack
-LayerTechnologyFrontendReact 18 + ViteStylingTailwind CSS v3BlockchainSolana (Devnet)WalletPhantom WalletIconsTabler Icons React
+## 🚀 Tech Stack
 
-🎯 Use Cases
+|    Layer   |     Technology     |
+|:----------:|:------------------:|
+|  Frontend  |   React 18 + Vite  |
+|   Styling  |   Tailwind CSS v4  |
+| Blockchain |   Solana (Devnet)  |
+|   Wallet   |   Phantom Wallet   |
+|    Icons   | Tabler Icons React |
 
-🎨 Creator tipping — streamers, YouTubers, artists receive SOL tips via QR on screen
-💼 Freelancer invoicing — share a payment link in WhatsApp, no bank details needed
-🌍 Donations — charities and causes accept borderless crypto donations instantly
+## 🎯 Use Cases
 
+🎨 **Creator tipping** — streamers, YouTubers, artists receive SOL tips via QR on screen
 
-📁 Project Structure
-src/
+💼 **Freelancer invoicing** — share a payment link in WhatsApp, no bank details needed
+
+🌍 **Donations** — charities and causes accept borderless crypto donations instantly
+
+## 📁 Project Structure
+
+```src/
 ├── components/
 │   ├── Topbar.jsx          # Navigation bar + Phantom connect
 │   ├── Sidebar.jsx         # Left nav + wallet balance card
@@ -44,39 +56,53 @@ src/
 │   └── users.js            # Mock user + transaction data
 ├── App.jsx                 # Root component + page routing
 └── index.css               # Tailwind directives + custom classes
+```
 
-🛠️ Getting Started
-Prerequisites
+## 🛠️ Getting Started
 
-Node.js v18+
-npm v9+
-Git
+### Prerequisites
 
-Installation
-bash# Clone the repo
+- Node.js v18+
+- npm v9+
+- Git
+
+### Installation
+
+```bash
+# Clone the repo
 git clone https://github.com/codingwithlebo/fastpay-ui.git
+```
 
-# Navigate into the project
+### Navigate into the project
+
+```bash
 cd fastpay-ui
+```
 
-# Install dependencies
+### Install dependencies
+
+```bash
 npm install
+```
 
-# Start the dev server
+### Start Local Hosting
+
+```bash
 npm run dev
-Open http://localhost:5173 in your browser.
+```
 
-🎮 Demo Flow
+Open [localhost:5173](http://localhost:5173) in your browser.
 
-Go to Send Tip page
-Search for @malebo, @dev_rizky, or @jacob_codes
-Select an amount and click Send via Phantom
-Watch the success screen — transaction confirmed on Solana devnet
-Check Dashboard for live charts and activity
-Check QR Code page to see your shareable payment link
+## 🎮 Demo Flow
 
+- Go to Send Tip page
+- Search for @malebo, @dev_rizky, or @jacob_codes
+- Select an amount and click Send via Phantom
+- Watch the success screen — transaction confirmed on Solana devnet
+- Check Dashboard for live charts and activity
+- Check QR Code page to see your shareable payment link
 
-🗺️ Roadmap
+## 🗺️ Roadmap
 
  Frontend UI — React + Tailwind
  Username search + profile lookup
@@ -87,13 +113,18 @@ Check QR Code page to see your shareable payment link
  On-chain transaction signing
  Mainnet deployment
 
+## 👥 Team
 
-👥 Team
 Built at the Dev3pack Global Web3 Hackathon 2026
-NameRoleMalebo NkunaFrontend · UI/UX · PitchRizky JanuarSolana · Smart ContractsJacob escotoBackend · APIs · n8n
 
-📄 License
-MIT — free to use, modify, and build on.
+|     Name     |           Role           |
+|:------------:|:------------------------:|
+| Malebo Nkuna | Frontend · UI/UX · Pitch |
+| Rizky Januar | Solana · Smart Contracts |
+| Jacob Escoto |   Backend · APIs · n8n   |
 
+## 📄 License
+
+[MIT License](https://opensource.org/licenses/MIT) — Free to use, modify, and build on.
 
 "The best Web3 UX is the one that doesn't feel like Web3 at all."
