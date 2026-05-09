@@ -40,7 +40,7 @@ export default function Sidebar({ active, onNav, connected, onConnect, wallet, i
             )}
 
             <aside aria-label="Sidebar"
-                className={`fixed inset-y-0 left-0 z-50 w-64 bg-bg1 flex flex-col px-3 py-4 border-r transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 overflow-y-auto ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                className={`fixed inset-y-0 left-0 z-50 w-64 bg-bg1 flex flex-col px-3 py-4 border-r transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 overflow-y-auto sidebar-scroll-desktop ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
                 style={{ borderRightColor: 'rgba(255,255,255,0.06)' }}>
 
                 <div className="flex items-center justify-between mb-4 lg:hidden px-2">

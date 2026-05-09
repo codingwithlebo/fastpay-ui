@@ -7,7 +7,7 @@ export const USERS = {
     avatarBg: 'rgba(0,255,135,0.10)',
     avatarColor: '#00ff87',
     score: '9.4',
-    wallet: '7xKp3mNq...FgHj',
+    address: '7xKp3mNq...FgHj',
   },
   '@dev_rizky': {
     name: 'Rizky Januar',
@@ -17,17 +17,17 @@ export const USERS = {
     avatarBg: 'rgba(77,159,255,0.10)',
     avatarColor: '#4d9fff',
     score: '8.7',
-    wallet: '3mNqRs8v...WzYe',
+    address: '7j4aFzEvVEwt7dvtsj9jz3emoviEZskK6hjqsXRwpsfD',
   },
-  '@jacob_codes': {
-    name: 'Jacob Mensah',
-    handle: '@jacob_codes',
+  '@jacob': {
+    name: 'Jacob Escoto',
+    handle: '@jacob',
     bio: 'n8n automation · Web3 integrations',
-    initials: 'JM',
+    initials: 'JE',
     avatarBg: 'rgba(245,166,35,0.10)',
     avatarColor: '#f5a623',
     score: '9.1',
-    wallet: 'BtWzYeLd...KoMn',
+    address: '6fTavFAm5SBD1AN2wdfVWQkqtfxqvJjtcxEcyVzhUChQ',
   },
   '@rzkjanuarr': {
     name: 'Rizky Januar',
@@ -37,7 +37,7 @@ export const USERS = {
     avatarBg: 'rgba(77,159,255,0.10)',
     avatarColor: '#4d9fff',
     score: '8.7',
-    wallet: '3mNqRs8v...WzYe',
+    address: '4UjpAoz1eeEQFFWTPMjJ3MgtSgKig5FaRjedSgy7YYxD',
   },
 }
 

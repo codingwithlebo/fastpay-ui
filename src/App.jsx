@@ -11,6 +11,11 @@ import QRPage from './pages/QRPage'
 import History from './pages/History'
 import Profile from './pages/Profile'
 
+function getHandleFromPath() {
+    const match = window.location.pathname.match(/^\/@([\w.]+)\/?$/)
+    return match ? `@${match[1].toLowerCase()}` : null
+}
+
 export default function App() {
     const { publicKey, connected, disconnect } = useWallet()
     const { connection } = useConnection()
@@ -19,24 +24,32 @@ export default function App() {
     const [modal, setModal] = useState(false)
     const [success, setSuccess] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [initialHandle, setInitialHandle] = useState(null)
 
     const [walletInfo, setWalletInfo] = useState({ addr: '', sol: '0.00', usd: '≈ $0.00' })
+
+    useEffect(() => {
+        const handle = getHandleFromPath()
+        if (handle) {
+            setInitialHandle(handle)
+            setPage('tip')
+        }
+    }, [])
 
     useEffect(() => {
         if (connected && publicKey) {
             connection.getBalance(publicKey).then(balance => {
                 const sol = balance / LAMPORTS_PER_SOL
-
-                const fullAddress = publicKey.toBase58();
-                const shortAddress = `${fullAddress.slice(0, 6)}...${fullAddress.slice(-6)}`;
+                const fullAddress = publicKey.toBase58()
+                const shortAddress = `${fullAddress.slice(0, 6)}...${fullAddress.slice(-6)}`
                 setWalletInfo({
                     addr: shortAddress,
                     sol: sol.toFixed(2),
                     usd: `≈ $${(sol * 146.4).toLocaleString()} USD`
-                });
-            });
+                })
+            })
         }
-    }, [connected, publicKey, connection]);
+    }, [connected, publicKey, connection])
 
     const handleConnectClick = () => {
         if (connected) disconnect()
@@ -46,6 +59,7 @@ export default function App() {
     const handleNav = (id) => {
         setPage(id)
         setIsMenuOpen(false)
+        if (id !== 'tip') setInitialHandle(null)
     }
 
     const renderPage = () => {
@@ -57,7 +71,13 @@ export default function App() {
             case 'profile':
                 return <Profile />
             default:
-                return <TipPage onSuccess={(m, h) => setSuccess({ m, h })} onQR={() => handleNav('qr')} />
+                return (
+                    <TipPage
+                        onSuccess={(m, h) => setSuccess({ m, h })}
+                        onQR={() => handleNav('qr')}
+                        initialHandle={initialHandle}
+                    />
+                )
         }
     }
 
@@ -92,4 +112,4 @@ export default function App() {
             {success && <SuccessOverlay show message={success.m} hash={success.h} onClose={() => setSuccess(null)} />}
         </div>
     )
-} 
+}
