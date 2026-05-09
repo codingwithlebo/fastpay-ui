@@ -15,6 +15,7 @@ export default function App() {
     const [page, setPage] = useState('tip')
     const [modal, setModal] = useState(false)
     const [success, setSuccess] = useState(null)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const [walletInfo, setWalletInfo] = useState({ addr: '', sol: '0.00', usd: '≈ $0.00' })
 
@@ -39,20 +40,31 @@ export default function App() {
         else setModal(true)
     }
 
-    return (
-        <div className="min-h-screen bg-bg0 text-t1 font-mono">
-            <Topbar connected={connected} onConnect={handleConnectClick} />
+    const handleNav = (id) => {
+        setPage(id)
+        setIsMenuOpen(false)
+    }
 
-            <div className="grid" style={{ gridTemplateColumns: '210px 1fr', minHeight: 'calc(100vh - 48px)' }}>
+    return (
+        <div className="h-screen bg-bg0 text-t1 font-mono flex flex-col overflow-hidden">
+            <Topbar
+                connected={connected}
+                onConnect={handleConnectClick}
+                onMenuToggle={() => setIsMenuOpen(true)}
+            />
+
+            <div className="flex flex-1 overflow-hidden relative">
                 <Sidebar
                     active={page}
-                    onNav={setPage}
+                    onNav={handleNav}
                     connected={connected}
                     onConnect={handleConnectClick}
                     wallet={walletInfo}
+                    isOpen={isMenuOpen}
+                    onClose={() => setIsMenuOpen(false)}
                 />
-                <main className="bg-bg0 p-6 overflow-y-auto">
-                    <TipPage onSuccess={(m, h) => setSuccess({ m, h })} onQR={() => setPage('qr')} />
+                <main className="flex-1 bg-bg0 p-4 lg:p-6 overflow-y-auto">
+                    <TipPage onSuccess={(m, h) => setSuccess({ m, h })} onQR={() => handleNav('qr')} />
                 </main>
             </div>
 
@@ -64,4 +76,4 @@ export default function App() {
             {success && <SuccessOverlay show message={success.m} hash={success.h} onClose={() => setSuccess(null)} />}
         </div>
     )
-}
+} 

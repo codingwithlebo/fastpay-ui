@@ -1,16 +1,14 @@
+import logo from "../assets/icon_24.svg"
 import { IconWallet, IconBell, IconSettings, IconCheck, IconMenu2 } from '@tabler/icons-react'
 
-export default function Topbar({ connected, onConnect }) {
+export default function Topbar({ connected, onConnect, onMenuToggle }) {
     return (
-        <header className="bg-bg1 flex flex-wrap items-center justify-between gap-3 px-4 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            {/* Logo */}
+        <header className="bg-bg1 flex flex-wrap items-center justify-between gap-3 px-4 py-2 shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+
             <div className="flex items-center gap-2 sm:gap-3">
                 <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-green rounded-fp flex items-center justify-center">
-                        <svg viewBox="0 0 14 14" width="13" height="13" fill="none">
-                            <polygon points="7,1 13,4.5 13,10.5 7,14 1,10.5 1,4.5" stroke="#0c0f0e" strokeWidth="1.5" />
-                            <circle cx="7" cy="7" r="2" fill="#0c0f0e" />
-                        </svg>
+                    <div className="w-6 h-6 rounded-fp flex items-center justify-center">
+                        <img src={logo} alt="FastPay Logo" className="w-6 h-6" loading="eager" aria-hidden="true" />
                     </div>
                     <span className="font-head font-extrabold text-base tracking-tight text-t1">
                         Fast<span className="text-green">Pay</span>
@@ -22,11 +20,11 @@ export default function Topbar({ connected, onConnect }) {
                 </div>
             </div>
 
-            {/* Right */}
             <div className="flex items-center gap-2">
                 <span className="text-t3 text-xs hidden md:block">
                     {new Date().toUTCString().split(' ')[4]} UTC
                 </span>
+
                 <button
                     onClick={onConnect}
                     className={connected ? 'fp-btn-green' : 'fp-btn-ghost'}
@@ -37,8 +35,7 @@ export default function Topbar({ connected, onConnect }) {
                     </span>
                 </button>
 
-                {/* Desktop Actions */}
-                <div className="hidden sm:flex items-center gap-2">
+                <div className="hidden lg:flex items-center gap-2">
                     <button className="fp-btn-ghost px-2">
                         <IconBell size={13} />
                     </button>
@@ -48,9 +45,8 @@ export default function Topbar({ connected, onConnect }) {
                     </button>
                 </div>
 
-                {/* Mobile Menu */}
-                <button className="sm:hidden fp-btn-ghost px-2">
-                    <IconMenu2 size={16} />
+                <button onClick={onMenuToggle} className="lg:hidden fp-btn-ghost px-2">
+                    <IconMenu2 size={20} />
                 </button>
             </div>
         </header>
