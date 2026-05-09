@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react'
-import { IconSearch, IconSend, IconCheck, IconLoader2 } from '@tabler/icons-react'
-import { USERS } from '../data/users'
-import { useFastPay } from '../hooks/useFastPay'
-import RecentTips from '../components/RecentTips'
+import { useState, useEffect } from "react"
+import { IconSearch, IconSend, IconCheck, IconLoader2 } from "@tabler/icons-react"
+import { USERS } from "../data/users"
+import { useFastPay } from "../hooks/useFastPay"
+import RecentTips from "../components/RecentTips"
+import ErrorToast from "../components/ErrorToast"
 
 const AMOUNTS = [0.1, 0.5, 1, 5, 10]
 const SOL_USD = 146.4
 
 export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount }) {
-    const [query, setQuery] = useState('')
+    const [query, setQuery] = useState("")
     const [user, setUser] = useState(null)
     const [notFound, setNotFound] = useState(false)
     const [selAmt, setSelAmt] = useState(0.5)
-    const [custom, setCustom] = useState('')
-    const [message, setMessage] = useState('')
+    const [custom, setCustom] = useState("")
+    const [message, setMessage] = useState("")
 
     const [lastTx, setLastTx] = useState(0)
 
@@ -30,7 +31,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
         if (initialAmount) {
             if (AMOUNTS.includes(initialAmount)) {
                 setSelAmt(initialAmount)
-                setCustom('')
+                setCustom("")
             } else {
                 setCustom(String(initialAmount))
                 setSelAmt(0)
@@ -40,7 +41,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
 
     function search() {
         const key = query.trim().toLowerCase()
-        const k = key.startsWith('@') ? key : '@' + key
+        const k = key.startsWith("@") ? key : "@" + key
         const u = USERS[k]
         setUser(u || null)
         setNotFound(!u)
@@ -50,7 +51,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
         if (!user?.address) return
 
         const amt = parseFloat(custom) > 0 ? parseFloat(custom) : selAmt
-        const finalMsg = message.trim() === '' ? `Tip sent via FastPay to ${user.handle}` : message
+        const finalMsg = message.trim() === "" ? `Tip sent via FastPay to ${user.handle}` : message
 
         try {
             const signature = await sendTip(user.address, amt, finalMsg)
@@ -62,11 +63,16 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                 amount: amt,
             })
 
-            setCustom('')
-            setMessage('')
+            setCustom("")
+            setMessage("")
             setLastTx(Date.now())
         } catch (err) {
-            console.error('Payment failed:', err)
+            <ErrorToast
+                message={err?.message || "An unexpected error ocurred"}
+                type="error"
+                duration={5000}
+                onClose={() => setErrorMsg(null)}
+            />
         }
     }
 
@@ -86,7 +92,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                     placeholder="@username (e.g., @jacob)"
                     value={query}
                     onChange={e => setQuery(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && search()}
+                    onKeyDown={e => e.key === "Enter" && search()}
                 />
                 <button className="fp-btn-green shrink-0" onClick={search}>
                     <IconSearch size={13} /> Find
@@ -107,7 +113,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                             User not found
                         </p>
                         <p className="font-mono text-xs text-t3 leading-relaxed">
-                            <span className="text-red-400">"{query}"</span> isn't registered on FastPay yet.
+                            <span className="text-red-400">"{query}"</span> isn"t registered on FastPay yet.
                             <br />Double-check the handle or ask them to join.
                         </p>
                     </div>
@@ -116,7 +122,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
 
             {user && (
                 <>
-                    <div className="bg-bg2 rounded-fp p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-3" style={{ border: '1px solid rgba(255,255,255,0.10)' }}>
+                    <div className="bg-bg2 rounded-fp p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-3" style={{ border: "1px solid rgba(255,255,255,0.10)" }}>
                         <div className="flex items-center gap-4 w-full sm:w-auto">
                             <div className="w-12 h-12 rounded-fp flex items-center justify-center font-head font-extrabold text-base shrink-0"
                                 style={{ background: user.avatarBg, color: user.avatarColor, border: `1px solid ${user.avatarColor}44` }}>
@@ -140,7 +146,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                             <span className="fp-badge-green inline-flex items-center gap-1 mb-2"><IconCheck size={10} /> Verified</span>
                         </div>
 
-                        <div className="w-full sm:w-auto sm:text-right border-t sm:border-t-0 pt-3 sm:pt-0" style={{ borderColor: 'rgba(255,255,255,0.10)' }}>
+                        <div className="w-full sm:w-auto sm:text-right border-t sm:border-t-0 pt-3 sm:pt-0" style={{ borderColor: "rgba(255,255,255,0.10)" }}>
                             <p className="fp-slash mb-1 sm:text-right">TRUST SCORE</p>
                             <div className="flex items-baseline gap-1 sm:justify-end">
                                 <p className="font-mono text-3xl font-medium text-green">{user.score}</p>
@@ -155,8 +161,8 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                             {AMOUNTS.map(a => (
                                 <button
                                     key={a}
-                                    onClick={() => { setSelAmt(a); setCustom('') }}
-                                    className={`fp-chip ${selAmt === a && !custom ? 'active' : ''}`}
+                                    onClick={() => { setSelAmt(a); setCustom("") }}
+                                    className={`fp-chip ${selAmt === a && !custom ? "active" : ""}`}
                                 >
                                     {a} SOL
                                 </button>

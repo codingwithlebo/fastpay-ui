@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { SystemProgram, Transaction, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
-import { Program, AnchorProvider, BN } from '@coral-xyz/anchor';
+import { useState } from "react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { SystemProgram, Transaction, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Program, AnchorProvider, BN } from "@coral-xyz/anchor";
 
 const PROGRAM_ID = new PublicKey(import.meta.env.VITE_PROGRAM_ID)
 
@@ -21,7 +21,7 @@ export function useFastPay() {
 
         try {
             const provider = new AnchorProvider(connection, wallet as any, {
-                preflightCommitment: 'processed'
+                preflightCommitment: "processed"
             });
             const program = await Program.at(PROGRAM_ID, provider);
 
@@ -62,7 +62,7 @@ export function useFastPay() {
             );
 
             const signature = await wallet.sendTransaction(transaction, connection);
-            await connection.confirmTransaction(signature, 'processed');
+            await connection.confirmTransaction(signature, "processed");
 
             setLoading(false);
             return signature;

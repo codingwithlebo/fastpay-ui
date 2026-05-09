@@ -1,5 +1,5 @@
 export function generateSolanaPayUrl(handle: string, amount?: number): string {
-    const cleanHandle = handle.startsWith('@') ? handle.slice(1) : handle;
+    const cleanHandle = handle.startsWith("@") ? handle.slice(1) : handle;
     const baseUrl = `https://fastpay-sol.vercel.app/@${cleanHandle}`;
 
     if (amount && amount > 0) {
@@ -18,17 +18,17 @@ export async function convertSvgToPngBlob(svgElement: SVGSVGElement, size = 200)
     return new Promise((resolve, reject) => {
         const serializer = new XMLSerializer()
         const svgStr = serializer.serializeToString(svgElement)
-        const svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
+        const svgBlob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" })
 
         const url = URL.createObjectURL(svgBlob)
 
         const img = new Image()
         img.onload = () => {
-            const canvas = document.createElement('canvas')
+            const canvas = document.createElement("canvas")
             canvas.width = size
             canvas.height = size
-            const ctx = canvas.getContext('2d')!
-            ctx.fillStyle = '#ffffff'
+            const ctx = canvas.getContext("2d")!
+            ctx.fillStyle = "#ffffff"
             ctx.fillRect(0, 0, size, size)
             ctx.drawImage(img, 0, 0, size, size)
             URL.revokeObjectURL(url)
@@ -36,7 +36,7 @@ export async function convertSvgToPngBlob(svgElement: SVGSVGElement, size = 200)
             canvas.toBlob(blob => {
                 if (blob) resolve(blob)
                 else reject(new Error("Canvas toBlob failed"))
-            }, 'image/png')
+            }, "image/png")
         }
 
         img.onerror = reject

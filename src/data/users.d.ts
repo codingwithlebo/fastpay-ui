@@ -11,7 +11,7 @@ export interface User {
 
 export interface Transaction {
     time: string;
-    type: 'SENT' | 'RECEIVED';
+    type: "SENT" | "RECEIVED";
     party: string;
     amount: string;
     hash: string;

@@ -1,130 +1,116 @@
-# ⚡ FastPay
+# ⚡ FastPay: Human-Readable Payments on Solana
 
-Tip creators. Pay freelancers. Donate to causes.
-Human-readable payments on Solana — no wallet addresses needed.
+FastPay is a payments and tipping platform designed to eliminate friction in the Web3 ecosystem, transforming complex addresses into indexable human identifiers.
 
 ## 🧠 The Problem
 
-Web3 wallet addresses look like this:
-7xKp...3mNq; One wrong character and your money is gone forever.
-
-This is the #1 reason everyday people don't use crypto for payments like tipping a creator, paying a freelancer, or donating to a cause.
+Wallet addresses in Solana (e.g., `7xKp...3mNq`) are prone to human error. A single incorrect character can result in the total loss of funds. This technical barrier prevents ordinary users from adopting crypto for everyday transactions such as tipping creators or paying freelancers.
 
 ## ✅ Our Solution
 
-FastPay abstracts wallet addresses into:
+FastPay abstracts technical complexity through:
 
-Human-readable usernames → @malebo
-Simple payment links → fastpay.id/@malebo
-Dynamic QR codes → scan and pay in one tap via Phantom
+- **Human Identifiers**: @jacob instead of a public key.
+- **Preventive Validation**: Balance check in the UI begore interacting with the blockchain.
+- **Social Proof**:Share Fastpay platform via X sharing and direct links to Solscan.
 
-No errors. No confusion. One click.
+## 🚀 Technical Highlights & Performance
 
-## 🚀 Tech Stack
+- **Arquitecture**: React 18 + Vite for sub-second loading and Tailwind CSS v4 for responsive design.
 
-|    Layer   |     Technology     |
-|:----------:|:------------------:|
-|  Frontend  |   React 18 + Vite  |
-|   Styling  |   Tailwind CSS v4  |
-| Blockchain |   Solana (Devnet)  |
-|   Wallet   |   Phantom Wallet   |
-|    Icons   | Tabler Icons React |
+## 🎯 Use Cases (Target Audience)
 
-## 🎯 Use Cases
+### 1. Content Creators and Streamers 🎨
 
-🎨 **Creator tipping** — streamers, YouTubers, artists receive SOL tips via QR on screen
+Creators can receive support from their audience without the high fees of centralized platforms. They simply need to display their FastPay QR code on screen or include theire @username link in their social media posts.
 
-💼 **Freelancer invoicing** — share a payment link in WhatsApp, no bank details needed
+### 2. Freelancers 💼
 
-🌍 **Donations** — charities and causes accept borderless crypto donations instantly
+Ideal for getting paid for quick services. Instead of sending a confusing wallet address via message, the freelancer sends their professional link:
+`fastpay-sol.vercel.app/@jacob_dev`, reducing the risk of payment errors by the client.
+
+### 3. Donations and Social Causes 🌍
+
+Organizations that need to raise funds transparently and quickly. Anyone in the world can donate in seconds, with the transaction verified inmmediately on the blockchain through the generated links.
+
+## Key Features (Implemented)
+
+- [x] **Wallet Connection**: Fluid integration with Phantom Wallet.
+- [x] **Dynamic Routing**: Custom routing system for user profiles (`/:user`).
+- [x] **QR Engine**: Generation and scanning of QR codes for fast payments.
+- [x] **Transaction History**: Local record of the last 5 transactions.
+- [x] **Balance Guard**: Real-time validation of insufficient funds.
+- [x] **Social Growth**: "Share on X" system integrated into payment confirmation.
+
+## 🗺️ Future Roadmap
+
+Following the hackathon, the project will evolve from an MVP to a robust platform:
+
+- **Phase 1: Persistence Layer**: Migration of local data to a distributed database for real-world profiles.
+- **Phase 2: Smart Notification**: Implementation of webhooks for automatic payment notification via Email or Telegram.
+- **Phase 3: Multi-Token Support**: Support for payments in USDC and other tokens within the Solana ecosystem.
+
+- **Phase 4: Mainnet Deployment**: Transition from the Devnet to the Solana
 
 ## 📁 Project Structure
 
-```src/
+```bash
+src/
 ├── components/
-│   ├── Topbar.jsx          # Navigation bar + Phantom connect
-│   ├── Sidebar.jsx         # Left nav + wallet balance card
-│   ├── PhantomModal.jsx    # Animated wallet connection flow
-│   └── SuccessOverlay.jsx  # Payment success screen
+│   ├── Topbar.jsx          # Wallet connection and network status
+│   ├── Sidebar.jsx         # Wallet balance and navigation
+│   ├── PhantomModal.jsx    # Animated connection mode
+|   ├── SuccessOverlay.jsx  # Feedback on success and sharing on X
+│   └── RecentTips.jsx      # Save and read the last 5 tips.
 ├── pages/
-│   ├── TipPage.jsx         # Search user + send tip flow
-│   ├── Dashboard.jsx       # Earnings charts + activity feed
-│   ├── History.jsx         # Full transaction table
-│   ├── Profile.jsx         # User identity settings
-│   └── QRPage.jsx          # QR code + dynamic invoice
+│   ├── TipPage.jsx         # SOL central search and submission logic
+│   ├── QRPage.jsx          # QR invoice generation and link copying
+│   └── NotFound.jsx        # Handling 404 errors for invalid routes
 ├── data/
-│   └── users.js            # Mock user + transaction data
-├── App.jsx                 # Root component + page routing
-└── index.css               # Tailwind directives + custom classes
+│   └── users.js            # Local user database
+└── App.jsx                 # Dynamic routing system and global logic
 ```
 
 ## 🛠️ Getting Started
 
-### Prerequisites
+### 📋 Prerequisites
 
-- Node.js v18+
-- npm v9+
-- Git
+- **Node.js**: v18.0.0 or higher
+- **Package Manager**: npm v9.0.0+
+- **Wallet**: Phantom Wallet extension installed in the browser
 
-### Installation
+### ⚙ Installation & Setup
 
-```bash
-# Clone the repo
-git clone https://github.com/codingwithlebo/fastpay-ui.git
-```
+1. **Clone and Navigate**:
 
-### Navigate into the project
+   ```bash
+    git clone https://github.com/codingwithlebo/fastpay-ui.git
+    cd fastpay-ui
+    ```
 
-```bash
-cd fastpay-ui
-```
+2. **Install Dependencies**:
 
-### Install dependencies
+    ```bash
+    npm install
+    ```
 
-```bash
-npm install
-```
+3. **Run in Development**:
 
-### Start Local Hosting
+    ```bash
+    npm run dev
+    ```
 
-```bash
-npm run dev
-```
+### 🖥 Local Hosting
 
-Open [localhost:5173](http://localhost:5173) in your browser.
+Once the command has been executed, open your browser to: [localhost:5173](https://localhost:5173)
 
-## 🎮 Demo Flow
+***Note***: *Make sure you have your Phantom Wallet set up on Devnet to test real transactions at no cost.*
 
-- Go to Send Tip page
-- Search for @malebo, @dev_rizky, or @jacob_codes
-- Select an amount and click Send via Phantom
-- Watch the success screen — transaction confirmed on Solana devnet
-- Check Dashboard for live charts and activity
-- Check QR Code page to see your shareable payment link
+## 👥 Team & Recognition
 
-## 🗺️ Roadmap
+- **Jacob Escoto - Lead Developer** (Frontend, Solana Web3 Integration, SEO, Performance Optimization).
+- *Malebo Nkuna & Rizky Januar* - Contributors (Initial UI & Smart Contract Research).
 
- Frontend UI — React + Tailwind
- Username search + profile lookup
- Phantom wallet connection flow
- QR code generation
- Real Phantom wallet integration (@solana/web3.js)
- Username → wallet address database (Supabase)
- On-chain transaction signing
- Mainnet deployment
+---
 
-## 👥 Team
-
-Built at the Dev3pack Global Web3 Hackathon 2026
-
-|     Name     |           Role           |
-|:------------:|:------------------------:|
-| Malebo Nkuna | Frontend · UI/UX · Pitch |
-| Rizky Januar | Solana · Smart Contracts |
-| Jacob Escoto |   Backend · APIs · n8n   |
-
-## 📄 License
-
-[MIT License](https://opensource.org/licenses/MIT) — Free to use, modify, and build on.
-
-"The best Web3 UX is the one that doesn't feel like Web3 at all."
+***Built at the Dev3pack Global Web3 Hackathon 2026***

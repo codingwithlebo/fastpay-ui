@@ -1,7 +1,7 @@
-import { useState, useCallback, useMemo } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useState, useCallback, useMemo } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { generateSolanaPayUrl, formatWalletAddress, convertSvgToPngBlob } from "../utils/qr";
-import { USERS } from '../data/users';
+import { USERS } from "../data/users";
 
 function findHandleByAddress(address: string): string | null {
     const entry = Object.values(USERS).find(u => u.address === address)
@@ -32,9 +32,9 @@ export function useQRGeneration(amount?: number) {
         try {
             const blob = await convertSvgToPngBlob(qrRef, 400)
             const url = URL.createObjectURL(blob)
-            const a = document.createElement('a')
+            const a = document.createElement("a")
             a.href = url
-            a.download = `fastpay-${shortAddress.replace('...', '-')}.png`
+            a.download = `fastpay-${shortAddress.replace("...", "-")}.png`
             a.click()
             URL.revokeObjectURL(url)
         } finally {
