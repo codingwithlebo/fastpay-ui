@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { IconSearch, IconSend, IconQrcode, IconCheck, IconLoader2 } from '@tabler/icons-react'
+import { IconSearch, IconSend, IconCheck, IconLoader2 } from '@tabler/icons-react'
 import { USERS } from '../data/users'
 import { useFastPay } from '../hooks/useFastPay'
 import RecentTips from '../components/RecentTips'
@@ -191,9 +191,6 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                                 ) : (
                                     <><IconSend size={13} /> Send via Phantom</>
                                 )}
-                            </button>
-                            <button className="fp-btn-ghost shrink-0" onClick={onQR} disabled={loading}>
-                                <IconQrcode size={13} />
                             </button>
                         </div>
                     </div>

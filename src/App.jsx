@@ -1,15 +1,42 @@
 import { useState, useEffect } from 'react'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom'
 
-import Topbar from './components/Topbar'
-import Sidebar from './components/Sidebar'
-import PhantomModal from './components/PhantomModal'
-import SuccessOverlay from './components/SuccessOverlay'
-import TipPage from './pages/TipPage'
-import QRPage from './pages/QRPage'
-import { saveRecentTip } from './components/RecentTips'
+import Topbar from "./components/Topbar"
+import Sidebar from "./components/Sidebar"
+import PhantomModal from "./components/PhantomModal"
+import SuccessOverlay from "./components/SuccessOverlay"
+import TipPage from "./pages/TipPage"
+import QRPage from "./pages/QRPage"
+import NotFound from "./pages/NotFound"
+
+import { USERS } from "./data/users"
+import { saveRecentTip } from "./components/RecentTips"
+
+const ProfileWrapper = ({ onSuccess, onQR }) => {
+    const { user } = useParams()
+    const location = useLocation()
+
+    const handle = user?.startsWith('@') ? user.toLowerCase() : `@${user?.toLowerCase()}`
+
+    if (!USERS[handle]) {
+        return <NotFound />
+    }
+
+    const amount = new URLSearchParams(location.search).get('amount')
+    const parsedAmount = parseFloat(amount)
+    const validAmount = !isNaN(parsedAmount) && parsedAmount > 0 ? parsedAmount : null
+
+    return (
+        <TipPage
+            onSuccess={onSuccess}
+            onQR={onQR}
+            initialHandle={handle}
+            initialAmount={validAmount}
+        />
+    )
+}
 
 function AppContent() {
     const { publicKey, connected, disconnect } = useWallet()
@@ -42,25 +69,12 @@ function AppContent() {
         else setModal(true)
     }
 
-    const getDeepLinkParams = () => {
-        const match = location.pathname.match(/^\/@([\w.]+)\/?$/)
-        if (!match) return { handle: null, amount: null }
-        const handle = `@${match[1].toLowerCase()}`
-        const amount = new URLSearchParams(location.search).get('amount')
-        const parsed = parseFloat(amount)
-        return {
-            handle,
-            amount: !isNaN(parsed) && parsed > 0 ? parsed : null,
-        }
-    }
-
-    const { handle, amount } = getDeepLinkParams()
-    const activePage = location.pathname === '/qr' ? 'qr' : 'tip'
-
     const handleSuccess = ({ message, hash, handle: tipHandle, amount: tipAmount }) => {
         saveRecentTip({ handle: tipHandle, amount: tipAmount, hash })
-        setSuccess({ m: message, h: `tx: ${hash}` })
+        setSuccess({ m: message, h: hash })
     }
+
+    const activePage = location.pathname === '/qr' ? 'qr' : 'tip'
 
     return (
         <div className="h-screen bg-bg0 text-t1 font-mono flex flex-col overflow-hidden">
@@ -83,6 +97,7 @@ function AppContent() {
                     isOpen={isMenuOpen}
                     onClose={() => setIsMenuOpen(false)}
                 />
+
                 <main className="flex-1 bg-bg0 p-4 lg:p-6 overflow-y-auto">
                     <Routes>
                         <Route
@@ -96,22 +111,23 @@ function AppContent() {
                                 />
                             }
                         />
+
                         <Route
                             path="/qr"
                             element={<QRPage />}
                         />
+
                         <Route
                             path="/:user"
                             element={
-                                <TipPage
+                                <ProfileWrapper
                                     onSuccess={handleSuccess}
                                     onQR={() => navigate('/qr')}
-                                    initialHandle={handle}
-                                    initialAmount={amount}
                                 />
                             }
                         />
-                        <Route path="*" element={<Navigate to="/" replace />} />
+
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>
             </div>
@@ -121,6 +137,7 @@ function AppContent() {
                 onDone={() => setModal(false)}
                 onCancel={() => setModal(false)}
             />
+
             {success && (
                 <SuccessOverlay
                     show
