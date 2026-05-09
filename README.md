@@ -69,7 +69,7 @@ Open http://localhost:5173 in your browser.
 🎮 Demo Flow
 
 Go to Send Tip page
-Search for @malebo, @rzkjanuarr, or @JacobEscoto
+Search for @malebo, @dev_rizky, or @jacob_codes
 Select an amount and click Send via Phantom
 Watch the success screen — transaction confirmed on Solana devnet
 Check Dashboard for live charts and activity
@@ -90,7 +90,7 @@ Check QR Code page to see your shareable payment link
 
 👥 Team
 Built at the Dev3pack Global Web3 Hackathon 2026
-NameRoleMalebo NkunaFrontend · UI/UX · PitchRizky JanuarSolana · Smart ContractsJacob MensahBackend · APIs · n8n
+NameRoleMalebo NkunaFrontend · UI/UX · PitchRizky JanuarSolana · Smart ContractsJacob escotoBackend · APIs · n8n
 
 📄 License
 MIT — free to use, modify, and build on.
