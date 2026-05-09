@@ -1,7 +1,20 @@
+import { useState, useEffect } from 'react'
 import logo from "../assets/icon_24.svg"
 import { IconWallet, IconBell, IconSettings, IconCheck, IconMenu2 } from '@tabler/icons-react'
 
 export default function Topbar({ connected, onConnect, onMenuToggle }) {
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const formattedTime = time.toUTCString().split(' ')[4].slice(0, 5);
+
     return (
         <header className="bg-bg1 flex flex-wrap items-center justify-between gap-3 px-4 py-2 shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
 
@@ -22,7 +35,7 @@ export default function Topbar({ connected, onConnect, onMenuToggle }) {
 
             <div className="flex items-center gap-2">
                 <span className="text-t3 text-xs hidden md:block">
-                    {new Date().toUTCString().split(' ')[4]} UTC
+                    {formattedTime} UTC
                 </span>
 
                 <button

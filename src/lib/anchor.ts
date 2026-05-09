@@ -1,6 +1,6 @@
 import { AnchorProvider, Program, Idl } from "@coral-xyz/anchor";
-import { Connection, clusterApiUrl } from "@solana/web3.js";
-import { IDL, Fastpay, PROGRAM_ID_STR } from "../anchor/idl";
+import { Connection } from "@solana/web3.js";
+import { IDL, Fastpay } from "../anchor/idl";
 
 type Mutable<T> = {
     -readonly [K in keyof T]: Mutable<T[K]>;
@@ -8,9 +8,11 @@ type Mutable<T> = {
 
 type FastpayIdl = Fastpay & Idl;
 
+const PROGRAM_ID = import.meta.env.VITE_PROGRAM_ID
+
 const idl: FastpayIdl = {
     ...(IDL as unknown as Mutable<Fastpay>),
-    address: PROGRAM_ID_STR,
+    address: PROGRAM_ID,
 } as FastpayIdl;
 
 export const getProgram = (wallet: any) => {

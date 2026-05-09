@@ -8,7 +8,6 @@ import PhantomModal from './components/PhantomModal'
 import SuccessOverlay from './components/SuccessOverlay'
 import TipPage from './pages/TipPage'
 import QRPage from './pages/QRPage'
-import History from './pages/History'
 import Profile from './pages/Profile'
 
 function getDeepLinkParams() {
@@ -76,8 +75,6 @@ export default function App() {
         switch (page) {
             case 'qr':
                 return <QRPage />
-            case 'history':
-                return <History />
             case 'profile':
                 return <Profile />
             default:

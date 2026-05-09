@@ -7,7 +7,7 @@ export const USERS = {
     avatarBg: 'rgba(0,255,135,0.10)',
     avatarColor: '#00ff87',
     score: '9.4',
-    address: '7xKp3mNq...FgHj',
+    address: '66XETxEUmRBkJRV62vRBsyVuqDkrn7saSWwgQXoHnwmU',
   },
   '@dev_rizky': {
     name: 'Rizky Januar',

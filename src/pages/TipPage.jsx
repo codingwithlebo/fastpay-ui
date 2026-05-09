@@ -38,7 +38,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
 
     function search() {
         const key = query.trim().toLowerCase()
-        const k = key.startsWith('@') ? key : '@' + key.replace('fastpay.id/', '').replace('@', '')
+        const k = key.startsWith('@') ? key : '@' + key
         const u = USERS[k]
         setUser(u || null)
         setNotFound(!u)
@@ -73,7 +73,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
             <div className="flex gap-2 mb-4">
                 <input
                     className="fp-input flex-1"
-                    placeholder="@username or fastpay.id/handle"
+                    placeholder="@username (e.g., @jacob)"
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && search()}

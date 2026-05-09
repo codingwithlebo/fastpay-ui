@@ -1,6 +1,5 @@
 import {
-    IconSend, IconLayoutDashboard, IconListCheck, IconUser, IconQrcode, IconAddressBook,
-    IconChartLine, IconWallet, IconCheck, IconX, IconBell, IconSettings
+    IconSend, IconUser, IconQrcode, IconWallet, IconCheck, IconX, IconBell, IconSettings
 } from '@tabler/icons-react'
 
 const NAV = [
@@ -8,8 +7,6 @@ const NAV = [
         group: 'Payments',
         items: [
             { id: 'tip', label: 'Send Tip', Icon: IconSend },
-            { id: 'dashboard', label: 'Dashboard', Icon: IconLayoutDashboard },
-            { id: 'history', label: 'History', Icon: IconListCheck },
         ],
     },
     {
@@ -17,13 +14,6 @@ const NAV = [
         items: [
             { id: 'profile', label: 'My Profile', Icon: IconUser },
             { id: 'qr', label: 'QR Code', Icon: IconQrcode },
-        ],
-    },
-    {
-        group: 'Network',
-        items: [
-            { id: 'contacts', label: 'Contacts', Icon: IconAddressBook },
-            { id: 'analytics', label: 'Analytics', Icon: IconChartLine },
         ],
     },
 ]
