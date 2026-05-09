@@ -22,14 +22,17 @@ export default function App() {
         if (connected && publicKey) {
             connection.getBalance(publicKey).then(balance => {
                 const sol = balance / LAMPORTS_PER_SOL
+
+                const fullAddress = publicKey.toBase58();
+                const shortAddress = `${fullAddress.slice(0, 6)}...${fullAddress.slice(-6)}`;
                 setWalletInfo({
-                    addr: publicKey.toBase58(),
+                    addr: shortAddress,
                     sol: sol.toFixed(2),
                     usd: `≈ $${(sol * 146.4).toLocaleString()} USD`
-                })
-            })
+                });
+            });
         }
-    }, [connected, publicKey, connection])
+    }, [connected, publicKey, connection]);
 
     const handleConnectClick = () => {
         if (connected) disconnect()

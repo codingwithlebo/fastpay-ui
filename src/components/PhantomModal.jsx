@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { IconX, IconCheck } from '@tabler/icons-react'
+import { PhantomLogo } from './PhantomLogo'
 
 export default function PhantomModal({ open, onDone, onCancel }) {
     const { select, connect, connected, connecting } = useWallet()
@@ -35,7 +36,9 @@ export default function PhantomModal({ open, onDone, onCancel }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(12,15,14,0.90)' }}>
             <div className="bg-bg1 rounded-fp p-7 w-72 text-center" style={{ border: '1px solid rgba(255,255,255,0.10)', borderTop: '1px solid rgba(0,255,135,0.30)' }}>
-                <div className="text-4xl mb-3">👻</div>
+                <div className="flex justify-center mb-5">
+                    <PhantomLogo size={42}></PhantomLogo>
+                </div>
                 <h3 className="font-head font-extrabold text-base text-t1 mb-1.5">Connecting Phantom</h3>
                 <p className="font-mono text-xs text-t2 mb-4 leading-relaxed">
                     Approve the connection in your wallet to continue.
