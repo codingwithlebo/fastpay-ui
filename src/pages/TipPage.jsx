@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { IconSearch, IconSend, IconCheck, IconLoader2 } from "@tabler/icons-react"
+import { IconSearch, IconSend, IconCheck, IconLoader2, IconAlertTriangle } from "@tabler/icons-react"
 import { USERS } from "../data/users"
 import { useFastPay } from "../hooks/useFastPay"
 import RecentTips from "../components/RecentTips"
@@ -8,7 +8,7 @@ import ErrorToast from "../components/ErrorToast"
 const AMOUNTS = [0.1, 0.5, 1, 5, 10]
 const SOL_USD = 146.4
 
-export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount }) {
+export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount, walletInfo }) {
     const [query, setQuery] = useState("")
     const [user, setUser] = useState(null)
     const [notFound, setNotFound] = useState(false)
@@ -77,6 +77,8 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
     }
 
     const displayAmt = parseFloat(custom) > 0 ? parseFloat(custom) : selAmt
+    const walletBalance = parseFloat(walletInfo?.sol) || 0
+    const insufficientFunds = user && displayAmt > 0 && walletBalance < displayAmt
 
     return (
         <div>
@@ -205,7 +207,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                             <button
                                 className="fp-btn-green flex-1 justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                                 onClick={send}
-                                disabled={loading}
+                                disabled={loading || insufficientFunds}
                             >
                                 {loading ? (
                                     <><IconLoader2 size={13} className="animate-spin" /> Processing...</>
@@ -214,6 +216,15 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount 
                                 )}
                             </button>
                         </div>
+
+                        {insufficientFunds && (
+                            <div className="flex items-center gap-1.5 mt-2">
+                                <IconAlertTriangle size={12} className="text-red-400 shrink-0" />
+                                <p className="font-mono text-xs text-red-400">
+                                    Insufficient balance — you have {walletBalance.toFixed(2)} SOL, need {displayAmt.toFixed(2)} SOL.
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </>
             )}

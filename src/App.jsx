@@ -49,6 +49,7 @@ function AppContent() {
     const [success, setSuccess] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [walletInfo, setWalletInfo] = useState({ addr: '', sol: '0.00', usd: '≈ $0.00' })
+    const [balanceTick, setBalanceTick] = useState(0)
 
     useEffect(() => {
         if (connected && publicKey) {
@@ -63,7 +64,7 @@ function AppContent() {
                 })
             })
         }
-    }, [connected, publicKey, connection])
+    }, [connected, publicKey, connection, balanceTick])
 
     const handleConnectClick = () => {
         if (connected) disconnect()
@@ -73,6 +74,7 @@ function AppContent() {
     const handleSuccess = ({ message, hash, handle: tipHandle, amount: tipAmount }) => {
         saveRecentTip({ handle: tipHandle, amount: tipAmount, hash })
         setSuccess({ m: message, h: hash })
+        setBalanceTick(t => t + 1)
     }
 
     const activePage = location.pathname === '/qr' ? 'qr' : 'tip'
