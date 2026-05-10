@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { IconSearch, IconSend, IconCheck, IconLoader2, IconAlertTriangle } from "@tabler/icons-react"
+import { IconSearch, IconSend, IconCheck, IconLoader2, IconAlertTriangle, IconWallet } from "@tabler/icons-react"
 import { USERS } from "../data/users"
 import { useFastPay } from "../hooks/useFastPay"
 import RecentTips from "../components/RecentTips"
@@ -8,15 +8,15 @@ import ErrorToast from "../components/ErrorToast"
 const AMOUNTS = [0.1, 0.5, 1, 5, 10]
 const SOL_USD = 146.4
 
-export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount, walletInfo }) {
+export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount, walletInfo, connected, onConnect }) {
     const [query, setQuery] = useState("")
     const [user, setUser] = useState(null)
     const [notFound, setNotFound] = useState(false)
     const [selAmt, setSelAmt] = useState(0.5)
     const [custom, setCustom] = useState("")
     const [message, setMessage] = useState("")
-
     const [lastTx, setLastTx] = useState(0)
+    const [sent, setSent] = useState(false)
 
     const { sendTip, loading, error } = useFastPay()
 
@@ -63,6 +63,9 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount,
                 amount: amt,
             })
 
+            setSent(true)
+            setTimeout(() => setSent(false), 2000)
+
             setCustom("")
             setMessage("")
             setLastTx(Date.now())
@@ -79,6 +82,7 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount,
     const displayAmt = parseFloat(custom) > 0 ? parseFloat(custom) : selAmt
     const walletBalance = parseFloat(walletInfo?.sol) || 0
     const insufficientFunds = user && displayAmt > 0 && walletBalance < displayAmt
+    const customInvalid = custom !== "" && (isNaN(parseFloat(custom)) || parseFloat(custom) <= 0)
 
     return (
         <div>
@@ -170,10 +174,10 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount,
                                 </button>
                             ))}
                         </div>
-                        <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center mb-4">
+                        <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center mb-1">
                             <div className="flex gap-2 items-center w-full">
                                 <input
-                                    className="fp-input flex-1"
+                                    className={`fp-input flex-1 ${customInvalid ? "border border-red-500/70 focus:border-red-500" : ""}`}
                                     placeholder="Custom SOL amount"
                                     type="number"
                                     min="0.01"
@@ -186,6 +190,15 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount,
                                 </span>
                             </div>
                         </div>
+
+                        {customInvalid && (
+                            <div className="flex items-center gap-1.5 mb-3">
+                                <IconAlertTriangle size={12} className="text-red-400 shrink-0" />
+                                <p className="font-mono text-xs text-red-400">Enter a valid amount greater than 0.</p>
+                            </div>
+                        )}
+
+                        {!customInvalid && <div className="mb-3" />}
 
                         <div className="mb-4">
                             <input
@@ -204,17 +217,28 @@ export default function TipPage({ onSuccess, onQR, initialHandle, initialAmount,
                         )}
 
                         <div className="flex gap-2">
-                            <button
-                                className="fp-btn-green flex-1 justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                                onClick={send}
-                                disabled={loading || insufficientFunds}
-                            >
-                                {loading ? (
-                                    <><IconLoader2 size={13} className="animate-spin" /> Processing...</>
-                                ) : (
-                                    <><IconSend size={13} /> Send via Phantom</>
-                                )}
-                            </button>
+                            {!connected ? (
+                                <button
+                                    className="fp-btn-green flex-1 justify-center"
+                                    onClick={onConnect}
+                                >
+                                    <IconWallet size={13} /> Connect Wallet to Send
+                                </button>
+                            ) : (
+                                <button
+                                    className="fp-btn-green flex-1 justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                                    onClick={send}
+                                    disabled={loading || insufficientFunds || customInvalid || sent}
+                                >
+                                    {sent ? (
+                                        <><IconCheck size={13} /> Sent!</>
+                                    ) : loading ? (
+                                        <><IconLoader2 size={13} className="animate-spin" /> Processing...</>
+                                    ) : (
+                                        <><IconSend size={13} /> Send via Phantom</>
+                                    )}
+                                </button>
+                            )}
                         </div>
 
                         {insufficientFunds && (

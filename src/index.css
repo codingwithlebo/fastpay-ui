@@ -12,6 +12,12 @@ body {
   font-family: "DM Mono", monospace;
 }
 
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #4a604a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #8fa88f; }
+* { scrollbar-color: #4a604a transparent; scrollbar-width: thin; }
+
 @media (min-width: 1024px) {
   .sidebar-scroll-desktop {
     -ms-overflow-style: none;
@@ -20,7 +26,6 @@ body {
 
   .sidebar-scroll-desktop::-webkit-scrollbar {
     width: 0;
-    height: 0;
     display: none;
   }
 }
